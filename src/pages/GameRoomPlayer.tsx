@@ -71,7 +71,11 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label, onRelease }) => {
 	)
 }
 
-export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
+interface GameRoomPlayerConnectedProps {
+	roomCode: string
+}
+
+const GameRoomPlayerConnected: FunctionComponent<GameRoomPlayerConnectedProps> = ({ roomCode }) => {
 	const pendingRelease = useRef<{ left?: number; right?: number; timer?: number }>({})
 
 	useEffect(() => {
@@ -106,6 +110,22 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 	}, [])
 
 	return (
+		<>
+			<h1>Game Room</h1>
+			<p>
+				Joined room: <strong>{roomCode}</strong>
+			</p>
+
+			<div className={styles.controls}>
+				<LegSlider label="Left Leg" onRelease={(power) => handleRelease('left', power)} />
+				<LegSlider label="Right Leg" onRelease={(power) => handleRelease('right', power)} />
+			</div>
+		</>
+	)
+}
+
+export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
+	return (
 		<div className={styles.container}>
 			<Suspense
 				fallback={
@@ -115,19 +135,7 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 				}
 			>
 				<DevicePortalConsumer room={roomCode}>
-					{() => (
-						<>
-							<h1>Game Room</h1>
-							<p>
-								Joined room: <strong>{roomCode}</strong>
-							</p>
-
-							<div className={styles.controls}>
-								<LegSlider label="Left Leg" onRelease={(power) => handleRelease('left', power)} />
-								<LegSlider label="Right Leg" onRelease={(power) => handleRelease('right', power)} />
-							</div>
-						</>
-					)}
+					{() => <GameRoomPlayerConnected roomCode={roomCode} />}
 				</DevicePortalConsumer>
 			</Suspense>
 		</div>
