@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { NewGame } from './pages/NewGame';
 import { JoinGame } from './pages/JoinGame';
+import { GameRoom } from './pages/GameRoom';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/new" element={<NewGame />} />
         <Route path="/join" element={<JoinGame />} />
+        <Route path="/room/:code" element={<GameRoom />} />
       </Routes>
     </Router>
   );
