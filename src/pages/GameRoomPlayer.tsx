@@ -74,9 +74,13 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label, onRelease }) => {
 
 interface GameRoomPlayerConnectedProps {
 	roomCode: string
+	onJump: (leftPower: number, rightPower: number) => void
 }
 
-const GameRoomPlayerConnected: FunctionComponent<GameRoomPlayerConnectedProps> = ({ roomCode }) => {
+const GameRoomPlayerConnected: FunctionComponent<GameRoomPlayerConnectedProps> = ({
+	roomCode,
+	onJump,
+}) => {
 	const pendingRelease = useRef<{ left?: number; right?: number; timer?: number }>({})
 
 	useEffect(() => {
@@ -87,28 +91,31 @@ const GameRoomPlayerConnected: FunctionComponent<GameRoomPlayerConnectedProps> =
 		}
 	}, [])
 
-	const handleRelease = useCallback((side: 'left' | 'right', power: number) => {
-		const data = pendingRelease.current
-		data[side] = power
+	const handleRelease = useCallback(
+		(side: 'left' | 'right', power: number) => {
+			const data = pendingRelease.current
+			data[side] = power
 
-		if (data.left !== undefined && data.right !== undefined) {
-			if (data.timer) {
-				window.clearTimeout(data.timer)
-			}
-			console.log(data.left, data.right)
-			pendingRelease.current = {}
-			return
-		}
-
-		if (!data.timer) {
-			data.timer = window.setTimeout(() => {
-				const finalLeft = pendingRelease.current.left ?? 0
-				const finalRight = pendingRelease.current.right ?? 0
-				console.log(finalLeft, finalRight)
+			if (data.left !== undefined && data.right !== undefined) {
+				if (data.timer) {
+					window.clearTimeout(data.timer)
+				}
+				onJump(data.left, data.right)
 				pendingRelease.current = {}
-			}, 3000 /* @TODO: Change to something like 500 milliseconds. Add penalty based on how big is the release difference between both legs. */)
-		}
-	}, [])
+				return
+			}
+
+			if (!data.timer) {
+				data.timer = window.setTimeout(() => {
+					const finalLeft = pendingRelease.current.left ?? 0
+					const finalRight = pendingRelease.current.right ?? 0
+					onJump(finalLeft, finalRight)
+					pendingRelease.current = {}
+				}, 3000 /* @TODO: Change to something like 500 milliseconds. Add penalty based on how big is the release difference between both legs. */)
+			}
+		},
+		[onJump],
+	)
 
 	return (
 		<>
@@ -136,7 +143,14 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 				}
 			>
 				<DevicePortalConsumer room={fullRoomCode(roomCode)}>
-					{() => <GameRoomPlayerConnected roomCode={roomCode} />}
+					{({ sendMessageToProvider }) => (
+						<GameRoomPlayerConnected
+							roomCode={roomCode}
+							onJump={(leftPower, rightPower) => {
+								sendMessageToProvider(JSON.stringify({ leftPower, rightPower }))
+							}}
+						/>
+					)}
 				</DevicePortalConsumer>
 			</Suspense>
 		</div>
