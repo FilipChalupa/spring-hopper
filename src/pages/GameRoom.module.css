@@ -33,3 +33,58 @@
 	border: 2px dashed #646cff;
 	border-radius: 12px;
 }
+
+.controls {
+	display: flex;
+	gap: 4rem;
+	justify-content: center;
+	margin-top: 3rem;
+}
+
+.sliderContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.sliderTrack {
+	width: 20px;
+	height: 200px;
+	background-color: light-dark(#eee, #333);
+	border-radius: 10px;
+	position: relative;
+	overflow: hidden;
+}
+
+.sliderHandle {
+	width: 40px;
+	height: 40px;
+	background-color: #646cff;
+	border-radius: 50%;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	cursor: grab;
+	touch-action: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	font-weight: bold;
+	user-select: none;
+}
+
+.sliderHandle:active {
+	cursor: grabbing;
+	background-color: #535bf2;
+}
+
+.sliderFill {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: #646cff;
+	opacity: 0.3;
+}
