@@ -1,4 +1,5 @@
-import { type FunctionComponent, useCallback, useRef, useState } from 'react'
+import { DevicePortalConsumer } from '@device-portal/react'
+import { type FunctionComponent, Suspense, useCallback, useRef, useState } from 'react'
 import { useDrag } from 'react-use-drag'
 import styles from './GameRoomPlayer.module.css'
 
@@ -98,15 +99,30 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 
 	return (
 		<div className={styles.container}>
-			<h1>Game Room</h1>
-			<p>
-				Joined room: <strong>{roomCode}</strong>
-			</p>
+			<Suspense
+				fallback={
+					<p>
+						Connecting to room <strong>{roomCode}</strong>…
+					</p>
+				}
+			>
+				<DevicePortalConsumer room={roomCode}>
+					{({ value, sendMessageToProvider }) => (
+						<>
+							{value /* @TODO */}
+							<h1>Game Room</h1>
+							<p>
+								Joined room: <strong>{roomCode}</strong>
+							</p>
 
-			<div className={styles.controls}>
-				<LegSlider label="Left Leg" onRelease={(power) => handleRelease('left', power)} />
-				<LegSlider label="Right Leg" onRelease={(power) => handleRelease('right', power)} />
-			</div>
+							<div className={styles.controls}>
+								<LegSlider label="Left Leg" onRelease={(power) => handleRelease('left', power)} />
+								<LegSlider label="Right Leg" onRelease={(power) => handleRelease('right', power)} />
+							</div>
+						</>
+					)}
+				</DevicePortalConsumer>
+			</Suspense>
 		</div>
 	)
 }
