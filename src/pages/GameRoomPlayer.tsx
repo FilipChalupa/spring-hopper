@@ -82,10 +82,6 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 					</div>
 				</div>
 			</div>
-
-			<div className={styles.previewArea}>
-				<p>Pull the sliders to load legs!</p>
-			</div>
 		</div>
 	)
 }
