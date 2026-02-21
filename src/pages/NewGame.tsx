@@ -15,7 +15,7 @@ export function NewGame() {
 
   const handleStart = () => {
     const code = generateCode();
-    navigate(`/room/${code}`);
+    navigate('/room', { state: { code } });
   };
 
   return (

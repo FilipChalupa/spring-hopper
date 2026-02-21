@@ -1,8 +1,19 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import styles from './GameRoom.module.css';
 
 export function GameRoom() {
-  const { code } = useParams<{ code: string }>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const code = location.state?.code;
+
+  useEffect(() => {
+    if (!code) {
+      navigate('/new');
+    }
+  }, [code, navigate]);
+
+  if (!code) return null;
 
   return (
     <div className={styles.container}>
