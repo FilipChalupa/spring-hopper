@@ -1,6 +1,6 @@
 import { DevicePortalProvider } from '@device-portal/react'
 import { type FunctionComponent, useState } from 'react'
-import styles from './GameRoom.module.css'
+import styles from './GameRoomHost.module.css'
 
 export const GameRoomHost: FunctionComponent = () => {
 	const [code] = useState<string>(() => {

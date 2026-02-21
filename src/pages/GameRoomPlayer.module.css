@@ -7,33 +7,6 @@
 	justify-content: center;
 }
 
-.instructions {
-	position: absolute;
-	top: 0;
-	right: 0;
-	text-align: right;
-	padding: 1rem;
-	background-color: light-dark(rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
-	border-radius: 8px;
-	font-size: 0.9rem;
-	margin: 1rem;
-}
-
-.instructions p {
-	margin: 0.2rem 0;
-}
-
-.mainContent {
-	text-align: center;
-}
-
-.previewArea {
-	margin-top: 2rem;
-	padding: 3rem;
-	border: 2px dashed #646cff;
-	border-radius: 12px;
-}
-
 .controls {
 	display: flex;
 	gap: 4rem;

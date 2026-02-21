@@ -1,6 +1,6 @@
 import { type FunctionComponent, useCallback, useState } from 'react'
 import { useDrag } from 'react-use-drag'
-import styles from './GameRoom.module.css'
+import styles from './GameRoomPlayer.module.css'
 
 interface GameRoomPlayerProps {
 	roomCode: string
