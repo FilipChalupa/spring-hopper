@@ -1,5 +1,5 @@
 import { DevicePortalConsumer } from '@device-portal/react'
-import { type FunctionComponent, Suspense, useCallback, useRef, useState } from 'react'
+import { type FunctionComponent, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { useDrag } from 'react-use-drag'
 import styles from './GameRoomPlayer.module.css'
 
@@ -74,6 +74,14 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label, onRelease }) => {
 export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
 	const pendingRelease = useRef<{ left?: number; right?: number; timer?: number }>({})
 
+	useEffect(() => {
+		const originalStyle = document.body.style.overscrollBehavior
+		document.body.style.overscrollBehavior = 'none'
+		return () => {
+			document.body.style.overscrollBehavior = originalStyle
+		}
+	}, [])
+
 	const handleRelease = useCallback((side: 'left' | 'right', power: number) => {
 		const data = pendingRelease.current
 		data[side] = power
@@ -107,9 +115,8 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 				}
 			>
 				<DevicePortalConsumer room={roomCode}>
-					{({ value, sendMessageToProvider }) => (
+					{() => (
 						<>
-							{value /* @TODO */}
 							<h1>Game Room</h1>
 							<p>
 								Joined room: <strong>{roomCode}</strong>
