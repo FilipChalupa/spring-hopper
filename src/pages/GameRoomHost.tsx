@@ -1,8 +1,8 @@
 import { DevicePortalProvider } from '@device-portal/react'
-import { useState } from 'react'
+import { type FunctionComponent, useState } from 'react'
 import styles from './GameRoom.module.css'
 
-export function GameRoomHost() {
+export const GameRoomHost: FunctionComponent = () => {
 	const [code] = useState<string>(() => {
 		const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
 		let result = ''

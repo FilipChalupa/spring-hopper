@@ -1,6 +1,7 @@
+import { type FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 
-export function NewGame() {
+export const NewGame: FunctionComponent = () => {
 	return (
 		<div style={{ maxWidth: '600px', margin: '0 auto' }}>
 			<h1>Host New Game</h1>

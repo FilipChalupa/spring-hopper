@@ -1,7 +1,8 @@
+import { type FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import styles from './Home.module.css'
 
-export function Home() {
+export const Home: FunctionComponent = () => {
 	return (
 		<div className={styles.container}>
 			<h1>Spring Hopper</h1>

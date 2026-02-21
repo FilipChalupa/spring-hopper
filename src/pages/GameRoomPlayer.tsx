@@ -1,6 +1,11 @@
+import { type FunctionComponent } from 'react'
 import styles from './GameRoom.module.css'
 
-export function GameRoomPlayer({ roomCode }: { roomCode: string }) {
+interface GameRoomPlayerProps {
+	roomCode: string
+}
+
+export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
 	return (
 		<div className={styles.container}>
 			<h1>Game Room</h1>

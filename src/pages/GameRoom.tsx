@@ -1,8 +1,9 @@
+import { type FunctionComponent } from 'react'
 import { useParams } from 'react-router-dom'
 import { GameRoomHost } from './GameRoomHost'
 import { GameRoomPlayer } from './GameRoomPlayer'
 
-export function GameRoom() {
+export const GameRoom: FunctionComponent = () => {
 	const { roomCode } = useParams<{ roomCode: string }>()
 
 	if (roomCode) {

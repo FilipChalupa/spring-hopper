@@ -1,13 +1,15 @@
-import { useState, type SubmitEvent } from 'react'
+import { type FunctionComponent, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-export function JoinGame() {
+export const JoinGame: FunctionComponent = () => {
 	const [code, setCode] = useState('')
 	const navigate = useNavigate()
 
-	const handleSubmit = (event: SubmitEvent) => {
+	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault()
-		navigate(`/room/${code}`)
+		if (code) {
+			navigate(`/room/${code}`)
+		}
 	}
 
 	return (
