@@ -6,7 +6,9 @@ interface GameRoomPlayerProps {
 	roomCode: string
 }
 
-const MAX_PULL = 200
+const TRACK_HEIGHT = 200
+const HANDLE_HEIGHT = 40
+const MAX_PULL = TRACK_HEIGHT - HANDLE_HEIGHT
 
 export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
 	const [pullLeft, setPullLeft] = useState(0)
@@ -49,7 +51,10 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 				<div className={styles.sliderContainer}>
 					<label>Left Leg</label>
 					<div className={styles.sliderTrack}>
-						<div className={styles.sliderFill} style={{ height: `${MAX_PULL - pullLeft}px` }} />
+						<div
+							className={styles.sliderFill}
+							style={{ height: `${TRACK_HEIGHT - (pullLeft + HANDLE_HEIGHT)}px` }}
+						/>
 						<div
 							className={styles.sliderHandle}
 							style={{ top: `${pullLeft}px` }}
@@ -63,7 +68,10 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 				<div className={styles.sliderContainer}>
 					<label>Right Leg</label>
 					<div className={styles.sliderTrack}>
-						<div className={styles.sliderFill} style={{ height: `${MAX_PULL - pullRight}px` }} />
+						<div
+							className={styles.sliderFill}
+							style={{ height: `${TRACK_HEIGHT - (pullRight + HANDLE_HEIGHT)}px` }}
+						/>
 						<div
 							className={styles.sliderHandle}
 							style={{ top: `${pullRight}px` }}
