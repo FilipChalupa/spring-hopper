@@ -1,4 +1,4 @@
-import { type FunctionComponent, useCallback, useState, useRef } from 'react'
+import { type FunctionComponent, useCallback, useRef, useState } from 'react'
 import { useDrag } from 'react-use-drag'
 import styles from './GameRoomPlayer.module.css'
 
@@ -104,8 +104,8 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 			</p>
 
 			<div className={styles.controls}>
-				<LegSlider label="Left Leg" onRelease={(p) => handleRelease('left', p)} />
-				<LegSlider label="Right Leg" onRelease={(p) => handleRelease('right', p)} />
+				<LegSlider label="Left Leg" onRelease={(power) => handleRelease('left', power)} />
+				<LegSlider label="Right Leg" onRelease={(power) => handleRelease('right', power)} />
 			</div>
 		</div>
 	)
