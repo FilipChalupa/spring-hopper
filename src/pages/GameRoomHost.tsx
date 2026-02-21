@@ -5,6 +5,9 @@ import styles from './GameRoomHost.module.css'
 
 export const GameRoomHost: FunctionComponent = () => {
 	const [code] = useState<string>(() => {
+		if (import.meta.env.DEV) {
+			return 'LOCAL'
+		}
 		const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
 		let result = ''
 		for (let i = 0; i < 5; i++) {
