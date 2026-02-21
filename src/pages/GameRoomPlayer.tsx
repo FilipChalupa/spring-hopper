@@ -1,4 +1,4 @@
-import { type FunctionComponent, useState, useCallback } from 'react'
+import { type FunctionComponent, useCallback, useState } from 'react'
 import { useDrag } from 'react-use-drag'
 import styles from './GameRoom.module.css'
 
@@ -53,7 +53,7 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 					<div className={styles.sliderTrack}>
 						<div
 							className={styles.sliderFill}
-							style={{ height: `${TRACK_HEIGHT - (pullLeft + HANDLE_HEIGHT)}px` }}
+							style={{ height: `${pullLeft + HANDLE_HEIGHT / 2}px` }}
 						/>
 						<div
 							className={styles.sliderHandle}
@@ -70,7 +70,7 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 					<div className={styles.sliderTrack}>
 						<div
 							className={styles.sliderFill}
-							style={{ height: `${TRACK_HEIGHT - (pullRight + HANDLE_HEIGHT)}px` }}
+							style={{ height: `${pullRight + HANDLE_HEIGHT / 2}px` }}
 						/>
 						<div
 							className={styles.sliderHandle}
