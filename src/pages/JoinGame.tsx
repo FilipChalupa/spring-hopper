@@ -1,8 +1,15 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export function JoinGame() {
 	const [code, setCode] = useState('')
+	const navigate = useNavigate()
+
+	const handleJoin = () => {
+		if (code) {
+			navigate(`/room/${code}`)
+		}
+	}
 
 	return (
 		<div>
@@ -16,7 +23,9 @@ export function JoinGame() {
 				/>
 			</div>
 			<div style={{ marginTop: '1rem' }}>
-				<button disabled={!code}>Join</button>
+				<button disabled={!code} onClick={handleJoin}>
+					Join
+				</button>
 				<Link to="/" className="button" style={{ marginLeft: '0.5rem' }}>
 					Back
 				</Link>

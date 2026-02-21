@@ -1,9 +1,14 @@
-import { useState } from 'react'
 import { DevicePortalProvider } from '@device-portal/react'
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import styles from './GameRoom.module.css'
 
 export function GameRoom() {
-	const [code] = useState<string>(() => {
+	const { roomCode } = useParams<{ roomCode: string }>()
+	const [generatedCode] = useState(() => {
+		if (roomCode) {
+			return null
+		}
 		const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
 		let result = ''
 		for (let i = 0; i < 5; i++) {
@@ -12,7 +17,25 @@ export function GameRoom() {
 		return result
 	})
 
-	if (!code) return null
+	const code = roomCode || generatedCode
+
+	if (!code) {
+		return null
+	}
+
+	if (roomCode) {
+		return (
+			<div className={styles.container}>
+				<h1>Game Room</h1>
+				<p>
+					Joined room: <strong>{roomCode}</strong>
+				</p>
+				<div className={styles.previewArea}>
+					<p>Controls will be implemented here soon.</p>
+				</div>
+			</div>
+		)
+	}
 
 	return (
 		<>

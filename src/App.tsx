@@ -12,6 +12,7 @@ function App() {
 				<Route path="/new" element={<NewGame />} />
 				<Route path="/join" element={<JoinGame />} />
 				<Route path="/room" element={<GameRoom />} />
+				<Route path="/room/:roomCode" element={<GameRoom />} />
 			</Routes>
 		</Router>
 	)
