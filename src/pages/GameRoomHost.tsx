@@ -1,5 +1,6 @@
 import { DevicePortalProvider } from '@device-portal/react'
 import { type FunctionComponent, useState } from 'react'
+import { fullRoomCode } from '../utilities/fullRoomCode'
 import styles from './GameRoomHost.module.css'
 
 export const GameRoomHost: FunctionComponent = () => {
@@ -14,7 +15,7 @@ export const GameRoomHost: FunctionComponent = () => {
 
 	return (
 		<>
-			<DevicePortalProvider room={'spring-hopper-' + code} maxClients={10} value="@TODO" />
+			<DevicePortalProvider room={fullRoomCode(code)} maxClients={10} value="@TODO" />
 			<div className={styles.container}>
 				<div className={styles.instructions}>
 					<p>To join, go to this URL on another device</p>

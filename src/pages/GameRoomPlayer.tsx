@@ -1,6 +1,7 @@
 import { DevicePortalConsumer } from '@device-portal/react'
 import { type FunctionComponent, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { useDrag } from 'react-use-drag'
+import { fullRoomCode } from '../utilities/fullRoomCode'
 import styles from './GameRoomPlayer.module.css'
 
 interface GameRoomPlayerProps {
@@ -134,7 +135,7 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 					</p>
 				}
 			>
-				<DevicePortalConsumer room={roomCode}>
+				<DevicePortalConsumer room={fullRoomCode(roomCode)}>
 					{() => <GameRoomPlayerConnected roomCode={roomCode} />}
 				</DevicePortalConsumer>
 			</Suspense>
