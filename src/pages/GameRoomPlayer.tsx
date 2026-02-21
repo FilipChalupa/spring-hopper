@@ -10,6 +10,15 @@ const TRACK_HEIGHT = 200
 const HANDLE_HEIGHT = 44
 const MAX_PULL = TRACK_HEIGHT - HANDLE_HEIGHT
 
+const getFillColor = (pull: number) => {
+	const percentage = pull / MAX_PULL
+	// Transition from blue (100, 108, 255) to red (255, 64, 64)
+	const r = Math.round(100 + (255 - 100) * percentage)
+	const g = Math.round(108 + (64 - 108) * percentage)
+	const b = Math.round(255 + (64 - 255) * percentage)
+	return `rgb(${r}, ${g}, ${b})`
+}
+
 export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
 	const [pullLeft, setPullLeft] = useState(0)
 	const [pullRight, setPullRight] = useState(0)
@@ -53,11 +62,14 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 					<div className={styles.sliderTrack}>
 						<div
 							className={styles.sliderFill}
-							style={{ height: `${pullLeft + HANDLE_HEIGHT / 2}px` }}
+							style={{
+								height: `${pullLeft + HANDLE_HEIGHT / 2}px`,
+								backgroundColor: getFillColor(pullLeft),
+							}}
 						/>
 						<div
 							className={styles.sliderHandle}
-							style={{ top: `${pullLeft}px` }}
+							style={{ top: `${pullLeft}px`, backgroundColor: getFillColor(pullLeft) }}
 							{...dragPropsLeft}
 						>
 							{Math.round((pullLeft / MAX_PULL) * 100)}%
@@ -70,11 +82,14 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 					<div className={styles.sliderTrack}>
 						<div
 							className={styles.sliderFill}
-							style={{ height: `${pullRight + HANDLE_HEIGHT / 2}px` }}
+							style={{
+								height: `${pullRight + HANDLE_HEIGHT / 2}px`,
+								backgroundColor: getFillColor(pullRight),
+							}}
 						/>
 						<div
 							className={styles.sliderHandle}
-							style={{ top: `${pullRight}px` }}
+							style={{ top: `${pullRight}px`, backgroundColor: getFillColor(pullRight) }}
 							{...dragPropsRight}
 						>
 							{Math.round((pullRight / MAX_PULL) * 100)}%
