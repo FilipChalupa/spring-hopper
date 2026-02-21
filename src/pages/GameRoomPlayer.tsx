@@ -19,36 +19,52 @@ const getFillColor = (pull: number) => {
 	return `rgb(${r}, ${g}, ${b})`
 }
 
+interface LegSliderProps {
+	label: string
+}
+
+const LegSlider: FunctionComponent<LegSliderProps> = ({ label }) => {
+	const [pull, setPull] = useState(0)
+
+	const onRelativePositionChange = useCallback((_x: number, y: number) => {
+		setPull(Math.min(MAX_PULL, Math.max(0, y)))
+	}, [])
+
+	const onEnd = useCallback(() => {
+		setPull(0)
+	}, [])
+
+	const { elementProps } = useDrag({
+		onRelativePositionChange,
+		onEnd,
+	})
+
+	const fillColor = getFillColor(pull)
+
+	return (
+		<div className={styles.sliderContainer}>
+			<label>{label}</label>
+			<div className={styles.sliderTrack}>
+				<div
+					className={styles.sliderFill}
+					style={{
+						height: `${pull + HANDLE_HEIGHT / 2}px`,
+						backgroundColor: fillColor,
+					}}
+				/>
+				<div
+					className={styles.sliderHandle}
+					style={{ top: `${pull}px`, backgroundColor: fillColor }}
+					{...elementProps}
+				>
+					{Math.round((pull / MAX_PULL) * 100)}%
+				</div>
+			</div>
+		</div>
+	)
+}
+
 export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
-	const [pullLeft, setPullLeft] = useState(0)
-	const [pullRight, setPullRight] = useState(0)
-
-	const onRelativePositionChangeLeft = useCallback((_x: number, y: number) => {
-		setPullLeft(Math.min(MAX_PULL, Math.max(0, y)))
-	}, [])
-
-	const onRelativePositionChangeRight = useCallback((_x: number, y: number) => {
-		setPullRight(Math.min(MAX_PULL, Math.max(0, y)))
-	}, [])
-
-	const onEndLeft = useCallback(() => {
-		setPullLeft(0)
-	}, [])
-
-	const onEndRight = useCallback(() => {
-		setPullRight(0)
-	}, [])
-
-	const { elementProps: dragPropsLeft } = useDrag({
-		onRelativePositionChange: onRelativePositionChangeLeft,
-		onEnd: onEndLeft,
-	})
-
-	const { elementProps: dragPropsRight } = useDrag({
-		onRelativePositionChange: onRelativePositionChangeRight,
-		onEnd: onEndRight,
-	})
-
 	return (
 		<div className={styles.container}>
 			<h1>Game Room</h1>
@@ -57,45 +73,8 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 			</p>
 
 			<div className={styles.controls}>
-				<div className={styles.sliderContainer}>
-					<label>Left Leg</label>
-					<div className={styles.sliderTrack}>
-						<div
-							className={styles.sliderFill}
-							style={{
-								height: `${pullLeft + HANDLE_HEIGHT / 2}px`,
-								backgroundColor: getFillColor(pullLeft),
-							}}
-						/>
-						<div
-							className={styles.sliderHandle}
-							style={{ top: `${pullLeft}px`, backgroundColor: getFillColor(pullLeft) }}
-							{...dragPropsLeft}
-						>
-							{Math.round((pullLeft / MAX_PULL) * 100)}%
-						</div>
-					</div>
-				</div>
-
-				<div className={styles.sliderContainer}>
-					<label>Right Leg</label>
-					<div className={styles.sliderTrack}>
-						<div
-							className={styles.sliderFill}
-							style={{
-								height: `${pullRight + HANDLE_HEIGHT / 2}px`,
-								backgroundColor: getFillColor(pullRight),
-							}}
-						/>
-						<div
-							className={styles.sliderHandle}
-							style={{ top: `${pullRight}px`, backgroundColor: getFillColor(pullRight) }}
-							{...dragPropsRight}
-						>
-							{Math.round((pullRight / MAX_PULL) * 100)}%
-						</div>
-					</div>
-				</div>
+				<LegSlider label="Left Leg" />
+				<LegSlider label="Right Leg" />
 			</div>
 		</div>
 	)
