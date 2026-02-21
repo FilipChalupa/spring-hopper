@@ -1,4 +1,4 @@
-import { type FunctionComponent, useCallback, useState } from 'react'
+import { type FunctionComponent, useCallback, useState, useRef } from 'react'
 import { useDrag } from 'react-use-drag'
 import styles from './GameRoomPlayer.module.css'
 
@@ -21,9 +21,10 @@ const getFillColor = (pull: number) => {
 
 interface LegSliderProps {
 	label: string
+	onRelease: (power: number) => void
 }
 
-const LegSlider: FunctionComponent<LegSliderProps> = ({ label }) => {
+const LegSlider: FunctionComponent<LegSliderProps> = ({ label, onRelease }) => {
 	const [pull, setPull] = useState(0)
 
 	const onRelativePositionChange = useCallback((_x: number, y: number) => {
@@ -33,10 +34,10 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label }) => {
 	const onEnd = useCallback(
 		(_x: number, y: number) => {
 			const power = Math.min(1, Math.max(0, y / MAX_PULL))
-			console.log(`${label} released with power: ${power.toFixed(2)}`)
+			onRelease(power)
 			setPull(0)
 		},
-		[label],
+		[onRelease],
 	)
 
 	const { elementProps } = useDrag({
@@ -70,6 +71,31 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label }) => {
 }
 
 export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
+	const pendingRelease = useRef<{ left?: number; right?: number; timer?: number }>({})
+
+	const handleRelease = useCallback((side: 'left' | 'right', power: number) => {
+		const data = pendingRelease.current
+		data[side] = power
+
+		if (data.left !== undefined && data.right !== undefined) {
+			if (data.timer) {
+				window.clearTimeout(data.timer)
+			}
+			console.log(data.left, data.right)
+			pendingRelease.current = {}
+			return
+		}
+
+		if (!data.timer) {
+			data.timer = window.setTimeout(() => {
+				const finalLeft = pendingRelease.current.left ?? 0
+				const finalRight = pendingRelease.current.right ?? 0
+				console.log(finalLeft, finalRight)
+				pendingRelease.current = {}
+			}, 3000)
+		}
+	}, [])
+
 	return (
 		<div className={styles.container}>
 			<h1>Game Room</h1>
@@ -78,8 +104,8 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 			</p>
 
 			<div className={styles.controls}>
-				<LegSlider label="Left Leg" />
-				<LegSlider label="Right Leg" />
+				<LegSlider label="Left Leg" onRelease={(p) => handleRelease('left', p)} />
+				<LegSlider label="Right Leg" onRelease={(p) => handleRelease('right', p)} />
 			</div>
 		</div>
 	)
