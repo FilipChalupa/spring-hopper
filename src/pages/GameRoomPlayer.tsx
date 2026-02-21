@@ -1,5 +1,13 @@
 import { DevicePortalConsumer } from '@device-portal/react'
-import { type FunctionComponent, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import {
+	type FunctionComponent,
+	Suspense,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react'
+import { Link } from 'react-router-dom'
 import { useDrag } from 'react-use-drag'
 import { fullRoomCode } from '../utilities/fullRoomCode'
 import styles from './GameRoomPlayer.module.css'
@@ -137,9 +145,14 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 		<div className={styles.container}>
 			<Suspense
 				fallback={
-					<p>
-						Connecting to room <strong>{roomCode}</strong>…
-					</p>
+					<div>
+						<p>
+							Connecting to room <strong>{roomCode}</strong>…
+						</p>
+						<Link to="/join" className="button">
+							Back
+						</Link>
+					</div>
 				}
 			>
 				<DevicePortalConsumer room={fullRoomCode(roomCode)}>

@@ -15,7 +15,23 @@ export const GameRoomHost: FunctionComponent = () => {
 
 	return (
 		<>
-			<DevicePortalProvider room={fullRoomCode(code)} maxClients={10} value="@TODO" />
+			<DevicePortalProvider room={fullRoomCode(code)} maxClients={10}>
+				{(Peer, peerId) => (
+					<>
+						<Peer
+							value="@TODO"
+							onMessageFromConsumer={(message) => {
+								const { leftPower, rightPower } = JSON.parse(message) as {
+									leftPower: number
+									rightPower: number
+								}
+								console.log({ leftPower, rightPower })
+							}}
+						/>
+						{peerId}
+					</>
+				)}
+			</DevicePortalProvider>
 			<div className={styles.container}>
 				<div className={styles.instructions}>
 					<p>To join, go to this URL on another device</p>
