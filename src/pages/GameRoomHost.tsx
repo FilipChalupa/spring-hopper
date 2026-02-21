@@ -44,13 +44,8 @@ export const GameRoomHost: FunctionComponent = () => {
 				</div>
 
 				<div className={styles.mainContent}>
-					<h1>Game Room Preview</h1>
-					<p>
-						Room Code: <strong>{code}</strong>
-					</p>
 					<div className={styles.previewArea}>
-						{/* Game preview content will go here */}
-						<p>Waiting for players...</p>
+						<p>Waiting for players…</p>
 					</div>
 				</div>
 			</div>
