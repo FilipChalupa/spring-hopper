@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export function JoinGame() {
   const [code, setCode] = useState('');
@@ -16,7 +17,7 @@ export function JoinGame() {
       </div>
       <div style={{ marginTop: '1rem' }}>
         <button disabled={!code}>Join</button>
-        <button onClick={() => window.history.back()} style={{ marginLeft: '0.5rem' }}>Back</button>
+        <Link to="/" className="button" style={{ marginLeft: '0.5rem' }}>Back</Link>
       </div>
     </div>
   );

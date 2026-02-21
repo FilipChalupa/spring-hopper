@@ -1,12 +1,6 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export function NewGame() {
-  const navigate = useNavigate();
-
-  const handleStart = () => {
-    navigate('/room');
-  };
-
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h1>Host New Game</h1>
@@ -19,8 +13,8 @@ export function NewGame() {
         </ol>
       </div>
       <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-        <button onClick={handleStart}>Start Game</button>
-        <button onClick={() => navigate('/')}>Back</button>
+        <Link to="/room" className="button">Start Game</Link>
+        <Link to="/" className="button">Back</Link>
       </div>
     </div>
   );
