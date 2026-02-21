@@ -7,7 +7,7 @@ interface GameRoomPlayerProps {
 }
 
 const TRACK_HEIGHT = 200
-const HANDLE_HEIGHT = 40
+const HANDLE_HEIGHT = 44
 const MAX_PULL = TRACK_HEIGHT - HANDLE_HEIGHT
 
 export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCode }) => {
