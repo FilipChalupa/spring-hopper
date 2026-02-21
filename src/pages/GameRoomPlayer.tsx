@@ -30,9 +30,14 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label }) => {
 		setPull(Math.min(MAX_PULL, Math.max(0, y)))
 	}, [])
 
-	const onEnd = useCallback(() => {
-		setPull(0)
-	}, [])
+	const onEnd = useCallback(
+		(_x: number, y: number) => {
+			const power = Math.min(1, Math.max(0, y / MAX_PULL))
+			console.log(`${label} released with power: ${power.toFixed(2)}`)
+			setPull(0)
+		},
+		[label],
+	)
 
 	const { elementProps } = useDrag({
 		onRelativePositionChange,
