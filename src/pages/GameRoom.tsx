@@ -1,17 +1,15 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import styles from './GameRoom.module.css';
 
 export function GameRoom() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const code = location.state?.code;
-
-  useEffect(() => {
-    if (!code) {
-      navigate('/new');
+  const [code] = useState<string>(() => {
+    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    let result = '';
+    for (let i = 0; i < 5; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
     }
-  }, [code, navigate]);
+    return result
+  });
 
   if (!code) return null;
 
@@ -21,7 +19,7 @@ export function GameRoom() {
         <p>To join, go to this URL on another device</p>
         <p>and enter code: <strong>{code}</strong></p>
       </div>
-      
+
       <div className={styles.mainContent}>
         <h1>Game Room Preview</h1>
         <p>Room Code: <strong>{code}</strong></p>

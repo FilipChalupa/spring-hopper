@@ -3,19 +3,8 @@ import { useNavigate } from 'react-router-dom';
 export function NewGame() {
   const navigate = useNavigate();
 
-  const generateCode = () => {
-    // Excluding ambiguous characters: 0, O, 1, I, L
-    const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-    let result = '';
-    for (let i = 0; i < 5; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  };
-
   const handleStart = () => {
-    const code = generateCode();
-    navigate('/room', { state: { code } });
+    navigate('/room');
   };
 
   return (
