@@ -92,7 +92,7 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 				const finalRight = pendingRelease.current.right ?? 0
 				console.log(finalLeft, finalRight)
 				pendingRelease.current = {}
-			}, 3000)
+			}, 3000 /* @TODO: Change to something like 500 milliseconds. Add penalty based on how big is the release difference between both legs. */)
 		}
 	}, [])
 
