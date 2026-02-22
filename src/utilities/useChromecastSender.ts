@@ -11,7 +11,7 @@ export const useChromecastSender = () => {
 		if (initialized === false && chrome && cast) {
 			initialized = true
 			cast.framework.CastContext.getInstance().setOptions({
-				receiverApplicationId: '6DEA9775',
+				receiverApplicationId: 'EE971669',
 				autoJoinPolicy: chrome.cast.AutoJoinPolicy.PAGE_SCOPED,
 				language: 'en',
 				resumeSavedSession: true,
