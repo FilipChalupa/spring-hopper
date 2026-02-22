@@ -28,6 +28,10 @@
 	background-color: white;
 	border-radius: 8px;
 	margin-bottom: 1rem;
+	cursor: pointer;
+	border: none;
+	display: block;
+	width: 100%;
 }
 
 .mainContent {

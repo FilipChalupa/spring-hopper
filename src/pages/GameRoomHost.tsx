@@ -19,6 +19,23 @@ export const GameRoomHost: FunctionComponent = () => {
 
 	const joinUrl = window.location.origin + window.location.pathname + '#/room/' + code
 
+	const handleShare = async () => {
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					title: 'Join Spring Hopper',
+					text: `Join my game room with code: ${code}`,
+					url: joinUrl,
+				})
+			} catch (error) {
+				console.error('Error sharing:', error)
+			}
+		} else {
+			// Fallback: Copy to clipboard? Or just do nothing if not supported.
+			console.log('Web Share API not supported')
+		}
+	}
+
 	return (
 		<>
 			<DevicePortalProvider room={fullRoomCode(code)} maxClients={10}>
@@ -40,13 +57,13 @@ export const GameRoomHost: FunctionComponent = () => {
 			</DevicePortalProvider>
 			<div className={styles.container}>
 				<div className={styles.instructions}>
-					<div className={styles.qrCode}>
+					<button className={styles.qrCode} onClick={handleShare}>
 						<QRCodeSVG
 							size={128}
 							style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
 							value={joinUrl}
 						/>
-					</div>
+					</button>
 					<p>To join, go to this URL on another device</p>
 					<p>
 						and enter code: <strong>{code}</strong>
