@@ -110,9 +110,8 @@ export const GameRoomHost: FunctionComponent = () => {
 							value={joinUrl}
 						/>
 					</button>
-					<p>To join, go to this URL on another device</p>
 					<p>
-						and enter code: <strong>{code}</strong>
+						Code to join: <strong>{code}</strong>
 					</p>
 				</div>
 
