@@ -1,12 +1,5 @@
 import { DevicePortalConsumer } from '@device-portal/react'
-import {
-	type FunctionComponent,
-	Suspense,
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from 'react'
+import { type FunctionComponent, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDrag } from 'react-use-drag'
 import { fullRoomCode } from '../utilities/fullRoomCode'
