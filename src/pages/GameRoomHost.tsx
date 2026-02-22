@@ -126,63 +126,92 @@ export const GameRoomHost: FunctionComponent = () => {
 									color: '#646cff',
 								}
 								return (
-									<div
+									<svg
 										key={peerId}
 										className={styles.player}
+										viewBox="0 0 50 60"
 										style={{
 											transform: `translate(${position.x}px, ${position.y}px) rotate(${position.angle}deg)`,
-											backgroundColor: position.color,
+											overflow: 'visible', // Ensure legs are visible when rotated
 										}}
 									>
-										<div
-											className={styles.leg}
-											style={{
-												top: '5px',
-												left: '-8px',
-												transform: 'rotate(-30deg)',
-											}}
+										{/* Body */}
+										<rect
+											x="15"
+											y="10"
+											width="20"
+											height="30"
+											rx="4"
+											ry="4"
+											fill={position.color}
 										/>
-										<div
-											className={styles.leg}
-											style={{
-												top: '15px',
-												left: '-10px',
-												transform: 'rotate(-10deg)',
-											}}
+										{/* Head */}
+										<circle cx="25" cy="10" r="7" fill={position.color} />
+
+										{/* Legs (example for left side, need to adjust positions and rotations) */}
+										{/* Legs - Left */}
+										<rect
+											x="5"
+											y="15"
+											width="12"
+											height="2"
+											rx="1"
+											ry="1"
+											fill={position.color}
+											transform={`rotate(-30 5 15)`}
 										/>
-										<div
-											className={styles.leg}
-											style={{
-												top: '25px',
-												left: '-8px',
-												transform: 'rotate(20deg)',
-											}}
+										<rect
+											x="3"
+											y="25"
+											width="15"
+											height="2"
+											rx="1"
+											ry="1"
+											fill={position.color}
+											transform={`rotate(-10 3 25)`}
 										/>
-										<div
-											className={styles.leg}
-											style={{
-												top: '5px',
-												right: '-8px',
-												transform: 'rotate(30deg)',
-											}}
+										<rect
+											x="5"
+											y="35"
+											width="12"
+											height="2"
+											rx="1"
+											ry="1"
+											fill={position.color}
+											transform={`rotate(20 5 35)`}
 										/>
-										<div
-											className={styles.leg}
-											style={{
-												top: '15px',
-												right: '-10px',
-												transform: 'rotate(10deg)',
-											}}
+										{/* Legs - Right */}
+										<rect
+											x="33"
+											y="15"
+											width="12"
+											height="2"
+											rx="1"
+											ry="1"
+											fill={position.color}
+											transform={`rotate(30 45 15)`}
 										/>
-										<div
-											className={styles.leg}
-											style={{
-												top: '25px',
-												right: '-8px',
-												transform: 'rotate(-20deg)',
-											}}
+										<rect
+											x="32"
+											y="25"
+											width="15"
+											height="2"
+											rx="1"
+											ry="1"
+											fill={position.color}
+											transform={`rotate(10 47 25)`}
 										/>
-									</div>
+										<rect
+											x="33"
+											y="35"
+											width="12"
+											height="2"
+											rx="1"
+											ry="1"
+											fill={position.color}
+											transform={`rotate(-20 45 35)`}
+										/>
+									</svg>
 								)
 							})}
 						</div>

@@ -62,29 +62,10 @@
 
 .player {
 	position: absolute;
-	width: 20px;
-	height: 30px;
-	background-color: #646cff;
-	border-radius: 4px;
-	transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-
-.player::before {
-	content: '';
-	position: absolute;
-	top: -12px;
+	width: 50px; /* SVG width */
+	height: 60px; /* SVG height */
+	top: 50%;
 	left: 50%;
-	transform: translateX(-50%);
-	width: 14px;
-	height: 14px;
-	background-color: inherit;
-	border-radius: 50%;
-}
-
-.leg {
-	position: absolute;
-	width: 10px;
-	height: 2px;
-	background-color: inherit;
-	border-radius: 1px;
+	transform-origin: center center;
+	transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
