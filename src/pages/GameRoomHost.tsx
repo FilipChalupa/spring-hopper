@@ -32,7 +32,7 @@ export const GameRoomHost: FunctionComponent = () => {
 	})
 
 	const [playerPositions, setPlayerPositions] = useState<
-		Record<string, { x: number; y: number; angle: number }>
+		Record<string, { x: number; y: number; angle: number; color: string }>
 	>({})
 
 	const { peers, initiator } = useDevicePortalProvider(fullRoomCode(code), {
@@ -64,7 +64,12 @@ export const GameRoomHost: FunctionComponent = () => {
 			rightPower: number
 		}
 		setPlayerPositions((previous) => {
-			const current = previous[peerId] ?? { x: 0, y: 0, angle: 0 }
+			const current = previous[peerId] ?? {
+				x: 0,
+				y: 0,
+				angle: 0,
+				color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+			}
 
 			// Rotation: difference in power rotates the hopper
 			// (rightPower - leftPower) * maxRotation (e.g., 45 degrees)
@@ -82,6 +87,7 @@ export const GameRoomHost: FunctionComponent = () => {
 			return {
 				...previous,
 				[peerId]: {
+					...current,
 					x: current.x + dx,
 					y: current.y + dy,
 					angle: newAngle,
@@ -119,38 +125,68 @@ export const GameRoomHost: FunctionComponent = () => {
 					{peers.length > 0 ? (
 						<div className={styles.gameWorld}>
 							{peers.map((peerId) => {
-								const position = playerPositions[peerId] ?? { x: 0, y: 0, angle: 0 }
+								const position = playerPositions[peerId] ?? {
+									x: 0,
+									y: 0,
+									angle: 0,
+									color: '#646cff',
+								}
 								return (
 									<div
 										key={peerId}
 										className={styles.player}
 										style={{
 											transform: `translate(${position.x}px, ${position.y}px) rotate(${position.angle}deg)`,
+											backgroundColor: position.color,
 										}}
 									>
 										<div
 											className={styles.leg}
-											style={{ top: '5px', left: '-8px', transform: 'rotate(-30deg)' }}
+											style={{
+												top: '5px',
+												left: '-8px',
+												transform: 'rotate(-30deg)',
+											}}
 										/>
 										<div
 											className={styles.leg}
-											style={{ top: '15px', left: '-10px', transform: 'rotate(-10deg)' }}
+											style={{
+												top: '15px',
+												left: '-10px',
+												transform: 'rotate(-10deg)',
+											}}
 										/>
 										<div
 											className={styles.leg}
-											style={{ top: '25px', left: '-8px', transform: 'rotate(20deg)' }}
+											style={{
+												top: '25px',
+												left: '-8px',
+												transform: 'rotate(20deg)',
+											}}
 										/>
 										<div
 											className={styles.leg}
-											style={{ top: '5px', right: '-8px', transform: 'rotate(30deg)' }}
+											style={{
+												top: '5px',
+												right: '-8px',
+												transform: 'rotate(30deg)',
+											}}
 										/>
 										<div
 											className={styles.leg}
-											style={{ top: '15px', right: '-10px', transform: 'rotate(10deg)' }}
+											style={{
+												top: '15px',
+												right: '-10px',
+												transform: 'rotate(10deg)',
+											}}
 										/>
 										<div
 											className={styles.leg}
-											style={{ top: '25px', right: '-8px', transform: 'rotate(-20deg)' }}
+											style={{
+												top: '25px',
+												right: '-8px',
+												transform: 'rotate(-20deg)',
+											}}
 										/>
 									</div>
 								)
