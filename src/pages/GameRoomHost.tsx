@@ -70,14 +70,8 @@ export const GameRoomHost: FunctionComponent = () => {
 				angle: 0,
 				color: `hsl(${Math.random() * 360}, 70%, 60%)`,
 			}
-
-			// Rotation: difference in power rotates the hopper
-			// (rightPower - leftPower) * maxRotation (e.g., 45 degrees)
-			const rotationDelta = (rightPower - leftPower) * 45
+			const rotationDelta = (leftPower - rightPower) * 100
 			const newAngle = current.angle + rotationDelta
-
-			// Movement: combined power moves hopper forward in current angle
-			// Angle 0 is UP (North). Converting to radians for Math functions.
 			const jumpDistance = (leftPower + rightPower) * 50
 			const rad = (newAngle * Math.PI) / 180
 
