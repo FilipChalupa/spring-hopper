@@ -14,11 +14,10 @@
 		"@device-portal/react": "^0.0.9",
 		"qrcode.react": "^4.2.0",
 		"react": "^19.2.0",
+		"react-chromecast-caf": "^0.0.3",
 		"react-dom": "^19.2.0",
 		"react-router-dom": "^7.13.0",
-		"react-use-drag": "^0.3.2",
-		"use-chromecast-caf-receiver": "^0.0.4",
-		"use-chromecast-caf-sender": "^0.0.6"
+		"react-use-drag": "^0.3.2"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.39.1",
