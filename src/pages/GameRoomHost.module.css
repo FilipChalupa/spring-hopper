@@ -43,4 +43,28 @@
 	padding: 3rem;
 	border: 2px dashed #646cff;
 	border-radius: 12px;
+	min-width: 300px;
+	min-height: 300px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.gameWorld {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.player {
+	position: absolute;
+	width: 20px;
+	height: 30px;
+	background-color: #646cff;
+	border-radius: 4px;
+	transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }

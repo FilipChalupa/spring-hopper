@@ -8,17 +8,11 @@ import styles from './GameRoomHost.module.css'
 const Player: FunctionComponent<{
 	initiator: Initiator
 	peerId: PeerId
-}> = ({ initiator, peerId }) => {
-	const onMessageFromConsumer = (message: string) => {
-		const { leftPower, rightPower } = JSON.parse(message) as {
-			leftPower: number
-			rightPower: number
-		}
-		console.log({ leftPower, rightPower })
-	}
+	onMessage: (message: string) => void
+}> = ({ initiator, peerId, onMessage }) => {
 	useDevicePortalPeer(initiator, peerId, {
 		value: '@TODO',
-		onMessageFromConsumer,
+		onMessageFromConsumer: onMessage,
 	})
 
 	return null
@@ -36,6 +30,10 @@ export const GameRoomHost: FunctionComponent = () => {
 		}
 		return result
 	})
+
+	const [playerPositions, setPlayerPositions] = useState<Record<string, { x: number; y: number }>>(
+		{},
+	)
 
 	const { peers, initiator } = useDevicePortalProvider(fullRoomCode(code), {
 		maxClients: 10,
@@ -60,10 +58,38 @@ export const GameRoomHost: FunctionComponent = () => {
 		}
 	}
 
+	const handleMessage = (peerId: string, message: string) => {
+		const { leftPower, rightPower } = JSON.parse(message) as {
+			leftPower: number
+			rightPower: number
+		}
+		setPlayerPositions((previous) => {
+			const current = previous[peerId] ?? { x: 0, y: 0 }
+			// Simplified movement: left leg moves left/up, right leg moves right/up
+			// Balancing them moves purely up.
+			const dx = (rightPower - leftPower) * 100
+			const dy = -(leftPower + rightPower) * 100
+			return {
+				...previous,
+				[peerId]: {
+					x: current.x + dx,
+					y: current.y + dy,
+				},
+			}
+		})
+	}
+
 	return (
 		<>
 			{initiator &&
-				peers.map((peerId) => <Player key={peerId} initiator={initiator} peerId={peerId} />)}
+				peers.map((peerId) => (
+					<Player
+						key={peerId}
+						initiator={initiator}
+						peerId={peerId}
+						onMessage={(message) => handleMessage(peerId, message)}
+					/>
+				))}
 			<div className={styles.container}>
 				<div className={styles.instructions}>
 					<button className={styles.qrCode} onClick={handleShare}>
@@ -82,7 +108,21 @@ export const GameRoomHost: FunctionComponent = () => {
 				<div className={styles.mainContent}>
 					<div className={styles.previewArea}>
 						{peers.length > 0 ? (
-							<p>{peers.length} player(s) connected</p>
+							<div className={styles.gameWorld}>
+								{peers.map((peerId) => {
+									const position = playerPositions[peerId] ?? { x: 0, y: 0 }
+									return (
+										<div
+											key={peerId}
+											className={styles.player}
+											style={{
+												transform: `translate(${position.x}px, ${position.y}px)`,
+											}}
+										/>
+									)
+								})}
+								<p>{peers.length} player(s) connected</p>
+							</div>
 						) : (
 							<p>Waiting for players…</p>
 						)}
