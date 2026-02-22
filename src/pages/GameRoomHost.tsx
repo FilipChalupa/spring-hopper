@@ -1,11 +1,8 @@
 import { DevicePortalProvider } from '@device-portal/react'
 import { type FunctionComponent, useState } from 'react'
-import QRCodeModule from 'react-qr-code'
+import { QRCodeSVG } from 'qrcode.react'
 import { fullRoomCode } from '../utilities/fullRoomCode'
 import styles from './GameRoomHost.module.css'
-
-// Handle ESM/CJS interop for react-qr-code
-const QRCode = (QRCodeModule as any).default || QRCodeModule
 
 export const GameRoomHost: FunctionComponent = () => {
 	const [code] = useState<string>(() => {
@@ -44,7 +41,7 @@ export const GameRoomHost: FunctionComponent = () => {
 			<div className={styles.container}>
 				<div className={styles.instructions}>
 					<div className={styles.qrCode}>
-						<QRCode
+						<QRCodeSVG
 							size={128}
 							style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
 							value={joinUrl}
