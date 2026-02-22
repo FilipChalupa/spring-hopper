@@ -1,7 +1,10 @@
 import { type FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
+import { useChromecastSender } from '../utilities/useChromecastSender'
 
 export const NewGame: FunctionComponent = () => {
+	const { cast } = useChromecastSender()
+
 	return (
 		<div style={{ maxWidth: '600px', margin: '0 auto' }}>
 			<h1>Host New Game</h1>
@@ -19,6 +22,16 @@ export const NewGame: FunctionComponent = () => {
 				<Link to="/room" className="button">
 					Start Game
 				</Link>
+				{cast && (
+					<button
+						className="button"
+						onClick={() => {
+							cast.framework.CastContext.getInstance().requestSession()
+						}}
+					>
+						Cast
+					</button>
+				)}
 				<Link to="/" className="button">
 					Back
 				</Link>

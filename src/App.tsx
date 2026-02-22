@@ -1,9 +1,10 @@
 import { type FunctionComponent } from 'react'
-import { HashRouter as Router, Routes, Route } from 'react-router-dom'
-import { Home } from './pages/Home'
-import { NewGame } from './pages/NewGame'
-import { JoinGame } from './pages/JoinGame'
+import { Route, HashRouter as Router, Routes } from 'react-router-dom'
+import { CastReceiver } from './pages/CastReceiver'
 import { GameRoom } from './pages/GameRoom'
+import { Home } from './pages/Home'
+import { JoinGame } from './pages/JoinGame'
+import { NewGame } from './pages/NewGame'
 
 const App: FunctionComponent = () => {
 	return (
@@ -13,6 +14,7 @@ const App: FunctionComponent = () => {
 				<Route path="/new" element={<NewGame />} />
 				<Route path="/join" element={<JoinGame />} />
 				<Route path="/room" element={<GameRoom />} />
+				<Route path="/cast" element={<CastReceiver />} />
 				<Route path="/room/:roomCode" element={<GameRoom />} />
 			</Routes>
 		</Router>
