@@ -60,8 +60,8 @@ export const GameRoomHost: FunctionComponent = () => {
 
 	const handleMessage = (peerId: string, message: string) => {
 		const { leftPower, rightPower } = JSON.parse(message) as {
-			leftPower: number
-			rightPower: number
+			leftPower?: number
+			rightPower?: number
 		}
 		setPlayerPositions((previous) => {
 			const current = previous[peerId] ?? {
@@ -70,9 +70,25 @@ export const GameRoomHost: FunctionComponent = () => {
 				angle: 0,
 				color: `hsl(${Math.random() * 360}, 70%, 60%)`,
 			}
-			const rotationDelta = (leftPower - rightPower) * 100
+
+			let rotationDelta = 0
+			let jumpDistance = 0
+
+			if (leftPower !== undefined && rightPower !== undefined) {
+				// Both legs pulled: move forward and turn
+				rotationDelta = (leftPower - rightPower) * 100
+				jumpDistance = (leftPower + rightPower) * 50
+			} else if (leftPower !== undefined) {
+				// Only left leg pulled: turn left, no forward movement
+				rotationDelta = leftPower * 100
+				jumpDistance = 0
+			} else if (rightPower !== undefined) {
+				// Only right leg pulled: turn right, no forward movement
+				rotationDelta = -rightPower * 100
+				jumpDistance = 0
+			}
+
 			const newAngle = current.angle + rotationDelta
-			const jumpDistance = (leftPower + rightPower) * 50
 			const rad = (newAngle * Math.PI) / 180
 
 			const dx = Math.sin(rad) * jumpDistance

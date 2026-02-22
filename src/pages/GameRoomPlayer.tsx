@@ -75,7 +75,7 @@ const LegSlider: FunctionComponent<LegSliderProps> = ({ label, onRelease }) => {
 
 interface GameRoomPlayerConnectedProps {
 	roomCode: string
-	onJump: (leftPower: number, rightPower: number) => void
+	onJump: (leftPower: number | undefined, rightPower: number | undefined) => void
 }
 
 const GameRoomPlayerConnected: FunctionComponent<GameRoomPlayerConnectedProps> = ({
@@ -108,11 +108,11 @@ const GameRoomPlayerConnected: FunctionComponent<GameRoomPlayerConnectedProps> =
 
 			if (!data.timer) {
 				data.timer = window.setTimeout(() => {
-					const finalLeft = pendingRelease.current.left ?? 0
-					const finalRight = pendingRelease.current.right ?? 0
+					const finalLeft = pendingRelease.current.left
+					const finalRight = pendingRelease.current.right
 					onJump(finalLeft, finalRight)
 					pendingRelease.current = {}
-				}, 3000 /* @TODO: Change to something like 500 milliseconds. Add penalty based on how big is the release difference between both legs. */)
+				}, 300)
 			}
 		},
 		[onJump],
@@ -153,7 +153,14 @@ export const GameRoomPlayer: FunctionComponent<GameRoomPlayerProps> = ({ roomCod
 						<GameRoomPlayerConnected
 							roomCode={roomCode}
 							onJump={(leftPower, rightPower) => {
-								sendMessageToProvider(JSON.stringify({ leftPower, rightPower }))
+								const messagePayload: { leftPower?: number; rightPower?: number } = {}
+								if (leftPower !== undefined) {
+									messagePayload.leftPower = leftPower
+								}
+								if (rightPower !== undefined) {
+									messagePayload.rightPower = rightPower
+								}
+								sendMessageToProvider(JSON.stringify(messagePayload))
 							}}
 						/>
 					)}
