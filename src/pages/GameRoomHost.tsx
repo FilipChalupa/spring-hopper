@@ -1,8 +1,28 @@
-import { DevicePortalProvider } from '@device-portal/react'
-import { type FunctionComponent, useState } from 'react'
+import { Initiator } from '@device-portal/client'
+import { useDevicePortalPeer, useDevicePortalProvider, type PeerId } from '@device-portal/react'
 import { QRCodeSVG } from 'qrcode.react'
+import { useState, type FunctionComponent } from 'react'
 import { fullRoomCode } from '../utilities/fullRoomCode'
 import styles from './GameRoomHost.module.css'
+
+const Player: FunctionComponent<{
+	initiator: Initiator
+	peerId: PeerId
+}> = ({ initiator, peerId }) => {
+	const onMessageFromConsumer = (message: string) => {
+		const { leftPower, rightPower } = JSON.parse(message) as {
+			leftPower: number
+			rightPower: number
+		}
+		console.log({ leftPower, rightPower })
+	}
+	useDevicePortalPeer(initiator, peerId, {
+		value: '@TODO',
+		onMessageFromConsumer,
+	})
+
+	return null
+}
 
 export const GameRoomHost: FunctionComponent = () => {
 	const [code] = useState<string>(() => {
@@ -15,6 +35,10 @@ export const GameRoomHost: FunctionComponent = () => {
 			result += chars.charAt(Math.floor(Math.random() * chars.length))
 		}
 		return result
+	})
+
+	const { peers, initiator } = useDevicePortalProvider(fullRoomCode(code), {
+		maxClients: 10,
 	})
 
 	const joinUrl = window.location.origin + window.location.pathname + '#/room/' + code
@@ -38,23 +62,8 @@ export const GameRoomHost: FunctionComponent = () => {
 
 	return (
 		<>
-			<DevicePortalProvider room={fullRoomCode(code)} maxClients={10}>
-				{(Peer, peerId) => (
-					<>
-						<Peer
-							value="@TODO"
-							onMessageFromConsumer={(message) => {
-								const { leftPower, rightPower } = JSON.parse(message) as {
-									leftPower: number
-									rightPower: number
-								}
-								console.log({ leftPower, rightPower })
-							}}
-						/>
-						{peerId}
-					</>
-				)}
-			</DevicePortalProvider>
+			{initiator &&
+				peers.map((peerId) => <Player key={peerId} initiator={initiator} peerId={peerId} />)}
 			<div className={styles.container}>
 				<div className={styles.instructions}>
 					<button className={styles.qrCode} onClick={handleShare}>
@@ -72,7 +81,11 @@ export const GameRoomHost: FunctionComponent = () => {
 
 				<div className={styles.mainContent}>
 					<div className={styles.previewArea}>
-						<p>Waiting for players…</p>
+						{peers.length > 0 ? (
+							<p>{peers.length} player(s) connected</p>
+						) : (
+							<p>Waiting for players…</p>
+						)}
 					</div>
 				</div>
 			</div>
