@@ -106,26 +106,26 @@ export const GameRoomHost: FunctionComponent = () => {
 				</div>
 
 				<div className={styles.mainContent}>
-					<div className={styles.previewArea}>
-						{peers.length > 0 ? (
-							<div className={styles.gameWorld}>
-								{peers.map((peerId) => {
-									const position = playerPositions[peerId] ?? { x: 0, y: 0 }
-									return (
-										<div
-											key={peerId}
-											className={styles.player}
-											style={{
-												transform: `translate(${position.x}px, ${position.y}px)`,
-											}}
-										/>
-									)
-								})}
-							</div>
-						) : (
+					{peers.length > 0 ? (
+						<div className={styles.gameWorld}>
+							{peers.map((peerId) => {
+								const position = playerPositions[peerId] ?? { x: 0, y: 0 }
+								return (
+									<div
+										key={peerId}
+										className={styles.player}
+										style={{
+											transform: `translate(${position.x}px, ${position.y}px)`,
+										}}
+									/>
+								)
+							})}
+						</div>
+					) : (
+						<div className={styles.previewArea}>
 							<p>Waiting for players…</p>
-						)}
-					</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</>

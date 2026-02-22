@@ -43,8 +43,6 @@
 	padding: 3rem;
 	border: 2px dashed #646cff;
 	border-radius: 12px;
-	min-width: 300px;
-	min-height: 300px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
