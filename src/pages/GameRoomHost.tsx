@@ -117,7 +117,32 @@ export const GameRoomHost: FunctionComponent = () => {
 										style={{
 											transform: `translate(${position.x}px, ${position.y}px)`,
 										}}
-									/>
+									>
+										<div
+											className={styles.leg}
+											style={{ top: '5px', left: '-8px', transform: 'rotate(-30deg)' }}
+										/>
+										<div
+											className={styles.leg}
+											style={{ top: '15px', left: '-10px', transform: 'rotate(-10deg)' }}
+										/>
+										<div
+											className={styles.leg}
+											style={{ top: '25px', left: '-8px', transform: 'rotate(20deg)' }}
+										/>
+										<div
+											className={styles.leg}
+											style={{ top: '5px', right: '-8px', transform: 'rotate(30deg)' }}
+										/>
+										<div
+											className={styles.leg}
+											style={{ top: '15px', right: '-10px', transform: 'rotate(10deg)' }}
+										/>
+										<div
+											className={styles.leg}
+											style={{ top: '25px', right: '-8px', transform: 'rotate(-20deg)' }}
+										/>
+									</div>
 								)
 							})}
 						</div>
