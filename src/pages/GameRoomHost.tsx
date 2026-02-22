@@ -31,9 +31,9 @@ export const GameRoomHost: FunctionComponent = () => {
 		return result
 	})
 
-	const [playerPositions, setPlayerPositions] = useState<Record<string, { x: number; y: number }>>(
-		{},
-	)
+	const [playerPositions, setPlayerPositions] = useState<
+		Record<string, { x: number; y: number; angle: number }>
+	>({})
 
 	const { peers, initiator } = useDevicePortalProvider(fullRoomCode(code), {
 		maxClients: 10,
@@ -64,16 +64,27 @@ export const GameRoomHost: FunctionComponent = () => {
 			rightPower: number
 		}
 		setPlayerPositions((previous) => {
-			const current = previous[peerId] ?? { x: 0, y: 0 }
-			// Simplified movement: left leg moves left/up, right leg moves right/up
-			// Balancing them moves purely up.
-			const dx = (rightPower - leftPower) * 100
-			const dy = -(leftPower + rightPower) * 100
+			const current = previous[peerId] ?? { x: 0, y: 0, angle: 0 }
+
+			// Rotation: difference in power rotates the hopper
+			// (rightPower - leftPower) * maxRotation (e.g., 45 degrees)
+			const rotationDelta = (rightPower - leftPower) * 45
+			const newAngle = current.angle + rotationDelta
+
+			// Movement: combined power moves hopper forward in current angle
+			// Angle 0 is UP (North). Converting to radians for Math functions.
+			const jumpDistance = (leftPower + rightPower) * 50
+			const rad = (newAngle * Math.PI) / 180
+
+			const dx = Math.sin(rad) * jumpDistance
+			const dy = -Math.cos(rad) * jumpDistance
+
 			return {
 				...previous,
 				[peerId]: {
 					x: current.x + dx,
 					y: current.y + dy,
+					angle: newAngle,
 				},
 			}
 		})
@@ -109,13 +120,13 @@ export const GameRoomHost: FunctionComponent = () => {
 					{peers.length > 0 ? (
 						<div className={styles.gameWorld}>
 							{peers.map((peerId) => {
-								const position = playerPositions[peerId] ?? { x: 0, y: 0 }
+								const position = playerPositions[peerId] ?? { x: 0, y: 0, angle: 0 }
 								return (
 									<div
 										key={peerId}
 										className={styles.player}
 										style={{
-											transform: `translate(${position.x}px, ${position.y}px)`,
+											transform: `translate(${position.x}px, ${position.y}px) rotate(${position.angle}deg)`,
 										}}
 									>
 										<div
