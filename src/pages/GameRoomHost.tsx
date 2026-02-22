@@ -121,7 +121,6 @@ export const GameRoomHost: FunctionComponent = () => {
 										/>
 									)
 								})}
-								<p>{peers.length} player(s) connected</p>
 							</div>
 						) : (
 							<p>Waiting for players…</p>
